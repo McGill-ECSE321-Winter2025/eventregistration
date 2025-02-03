@@ -16,6 +16,11 @@ public class Person {
 	private String password;
 	private Date creationDate;
 
+	// Hibernate needs a no-args constructor, but it doesn't need to be public
+	// https://docs.jboss.org/hibernate/orm/6.5/userguide/html_single/Hibernate_User_Guide.html#entity-pojo-constructor
+	protected Person() {
+	}
+
 	public Person(String name, String emailAddress, String password, Date creationDate) {
 		this.name = name;
 		this.emailAddress = emailAddress;

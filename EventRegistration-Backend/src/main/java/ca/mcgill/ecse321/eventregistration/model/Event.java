@@ -21,6 +21,11 @@ public abstract class Event {
 	private Time endTime;
 	private int registrationLimit;
 
+	// Hibernate needs a no-args constructor, but it doesn't need to be public
+	// https://docs.jboss.org/hibernate/orm/6.5/userguide/html_single/Hibernate_User_Guide.html#entity-pojo-constructor
+	protected Event() {
+	}
+
 	public Event(String name, Date date, Time start, Time end, int registrationLimit) {
 		this.name = name;
 		this.date = date;
