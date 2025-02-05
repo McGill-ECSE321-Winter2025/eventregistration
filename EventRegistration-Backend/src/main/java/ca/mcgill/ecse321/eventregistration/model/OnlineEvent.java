@@ -3,6 +3,9 @@ package ca.mcgill.ecse321.eventregistration.model;
 import java.sql.Date;
 import java.sql.Time;
 
+import jakarta.persistence.Entity;
+
+@Entity
 public class OnlineEvent extends Event {
 	private String url;
 

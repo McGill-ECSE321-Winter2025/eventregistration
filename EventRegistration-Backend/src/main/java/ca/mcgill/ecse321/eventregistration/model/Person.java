@@ -2,7 +2,14 @@ package ca.mcgill.ecse321.eventregistration.model;
 
 import java.sql.Date;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+
+@Entity
 public class Person {
+	@Id
+	@GeneratedValue
 	private int id;
 	private String name;
 	private String emailAddress;
