@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.sql.Date;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,6 +16,11 @@ import ca.mcgill.ecse321.eventregistration.model.Person;
 public class PersonRepositoryTests {
 	@Autowired
 	private PersonRepository repo;
+
+	@AfterEach
+	private void clearDatabase() {
+		repo.deleteAll();
+	}
 
 	@Test
 	public void testCreateAndReadPerson() {
