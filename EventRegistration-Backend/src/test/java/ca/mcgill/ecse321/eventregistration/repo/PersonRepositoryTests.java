@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.sql.Date;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,26 +17,27 @@ public class PersonRepositoryTests {
 	@Autowired
 	private PersonRepository repo;
 
+	@AfterEach
+	public void clearDatabase() {
+		repo.deleteAll();
+	}
+
 	@Test
 	public void testCreateAndReadPerson() {
 		// Arrange
-		Date today = Date.valueOf("2025-02-03");
-		Person peteMikeJoe = new Person(
-				"Pete Mike Joe",
-				"pete.mike.joe@mail.mcgill.ca",
-				"petemjdabest",
-				today);
-		peteMikeJoe = repo.save(peteMikeJoe);
+		Date creationDate = Date.valueOf("2025-02-12");
+		Person louis = new Person("Louis", "louis@mail.mcgill.ca", "1234", creationDate);
+		louis = repo.save(louis);
 
 		// Act
-		Person peteMikeJoeFromDb = repo.findPersonById(peteMikeJoe.getId());
+		Person louisFromDb = repo.findPersonById(louis.getId());
 
 		// Assert
-		assertNotNull(peteMikeJoeFromDb);
-		assertEquals(peteMikeJoe.getId(), peteMikeJoeFromDb.getId());
-		assertEquals(peteMikeJoe.getName(), peteMikeJoeFromDb.getName());
-		assertEquals(peteMikeJoe.getEmailAddress(), peteMikeJoeFromDb.getEmailAddress());
-		assertEquals(peteMikeJoe.getPassword(), peteMikeJoeFromDb.getPassword());
-		assertEquals(peteMikeJoe.getCreationDate(), peteMikeJoeFromDb.getCreationDate());
+		assertNotNull(louisFromDb);
+		assertEquals(louis.getId(), louisFromDb.getId());
+		assertEquals(louis.getName(), louisFromDb.getName());
+		assertEquals(louis.getEmailAddress(), louisFromDb.getEmailAddress());
+		assertEquals(louis.getPassword(), louisFromDb.getPassword());
+		assertEquals(louis.getCreationDate(), louisFromDb.getCreationDate());
 	}
 }
