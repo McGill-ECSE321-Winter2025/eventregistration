@@ -17,6 +17,11 @@ public class PersonController {
 	@Autowired
 	private PersonService personService;
 
+	/**
+	 * Creates a new person.
+	 *
+	 * @return The created person
+	 */
 	@PostMapping("people")
 	public PersonResponseDto createPerson(@RequestBody PersonCreationDto personToCreate) {
 		Person createdPerson = personService.createPerson(
@@ -26,6 +31,12 @@ public class PersonController {
 		return new PersonResponseDto(createdPerson);
 	}
 
+	/**
+	 * Find a specific user.
+	 *
+	 * @param id The primary key of the user.
+	 * @return The user with that ID.
+	 */
 	@GetMapping("people/{id}")
 	public PersonResponseDto findPersonById(@PathVariable int id) {
 		Person p = personService.findPersonById(id);
