@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import ca.mcgill.ecse321.eventregistration.dto.PersonCreationDto;
+import ca.mcgill.ecse321.eventregistration.dto.PersonResponseDto;
 import ca.mcgill.ecse321.eventregistration.model.Person;
 import ca.mcgill.ecse321.eventregistration.service.PersonService;
 
@@ -16,12 +18,17 @@ public class PersonController {
 	private PersonService personService;
 
 	@PostMapping("people")
-	public Person createPerson(@RequestBody Person personToCreate) {
-		return personService.createPerson(personToCreate);
+	public PersonResponseDto createPerson(@RequestBody PersonCreationDto personToCreate) {
+		Person createdPerson = personService.createPerson(
+				personToCreate.getName(),
+				personToCreate.getEmail(),
+				personToCreate.getPassword());
+		return new PersonResponseDto(createdPerson);
 	}
 
 	@GetMapping("people/{id}")
-	public Person findPersonById(@PathVariable int id) {
-		return personService.findPersonById(id);
+	public PersonResponseDto findPersonById(@PathVariable int id) {
+		Person p = personService.findPersonById(id);
+		return new PersonResponseDto(p);
 	}
 }
