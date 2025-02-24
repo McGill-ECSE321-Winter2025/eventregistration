@@ -19,10 +19,7 @@ public class PersonController {
 
 	@PostMapping("people")
 	public PersonResponseDto createPerson(@RequestBody PersonCreationDto personToCreate) {
-		Person createdPerson = personService.createPerson(
-				personToCreate.getName(),
-				personToCreate.getEmail(),
-				personToCreate.getPassword());
+		Person createdPerson = personService.createPerson(personToCreate);
 		return new PersonResponseDto(createdPerson);
 	}
 
