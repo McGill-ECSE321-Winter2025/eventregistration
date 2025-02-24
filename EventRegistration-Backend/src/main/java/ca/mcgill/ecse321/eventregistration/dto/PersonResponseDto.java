@@ -10,6 +10,11 @@ public class PersonResponseDto {
 	private String email;
 	private LocalDate creationDate;
 
+	// Jackson needs a no-args constructor, but it doesn't need to be public
+	@SuppressWarnings("unused")
+	private PersonResponseDto() {
+	}
+
 	public PersonResponseDto(Person p) {
 		this.id = p.getId();
 		this.name = p.getName();
