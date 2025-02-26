@@ -10,6 +10,10 @@ public class ErrorDto {
 	private ErrorDto() {
 	}
 
+	public ErrorDto(List<String> errors) {
+		this.errors = errors;
+	}
+
 	public ErrorDto(String error) {
 		this.errors = List.of(error);
 	}

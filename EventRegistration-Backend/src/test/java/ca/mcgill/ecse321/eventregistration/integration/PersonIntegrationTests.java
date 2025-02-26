@@ -1,10 +1,12 @@
 package ca.mcgill.ecse321.eventregistration.integration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
@@ -19,6 +21,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import ca.mcgill.ecse321.eventregistration.dto.ErrorDto;
 import ca.mcgill.ecse321.eventregistration.dto.PersonCreationDto;
 import ca.mcgill.ecse321.eventregistration.dto.PersonResponseDto;
 
@@ -55,6 +58,23 @@ public class PersonIntegrationTests {
 
 	@Test
 	@Order(1)
+	public void testCreatePersonWithShortPassword() {
+		// Arrange
+		PersonCreationDto body = new PersonCreationDto(VALID_NAME, VALID_EMAIL, "1234567");
+
+		// Act
+		ResponseEntity<ErrorDto> response = client.postForEntity("/people", body, ErrorDto.class);
+
+		// Assert
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+		assertNotNull(response.getBody());
+		assertIterableEquals(
+				List.of("password must be at least eight characters long"),
+				response.getBody().getErrors());
+	}
+
+	@Test
+	@Order(2)
 	public void testFindPersonByValidId() {
 		// Arrange
 		String url = String.format("/people/%d", this.createdPersonId);
