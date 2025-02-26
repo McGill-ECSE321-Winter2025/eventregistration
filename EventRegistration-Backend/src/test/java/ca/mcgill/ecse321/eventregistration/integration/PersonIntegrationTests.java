@@ -44,7 +44,7 @@ public class PersonIntegrationTests {
 		ResponseEntity<PersonResponseDto> response = client.postForEntity("/people", body, PersonResponseDto.class);
 
 		// Assert
-		assertEquals(HttpStatus.OK, response.getStatusCode());
+		assertEquals(HttpStatus.CREATED, response.getStatusCode());
 		assertNotNull(response.getBody());
 		assertTrue(response.getBody().getId() > 0, "the ID should be a positive int");
 		this.createdPersonId = response.getBody().getId();
