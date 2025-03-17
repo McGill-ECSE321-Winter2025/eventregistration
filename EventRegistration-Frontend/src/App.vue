@@ -5,37 +5,35 @@ import HelloWorld from './components/HelloWorld.vue'
 
 <template>
   <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </div>
+    <!-- The navigation bar -->
+    <nav>
+      <RouterLink to="/">Home</RouterLink>
+      <RouterLink to="/about">About</RouterLink>
+      <RouterLink to="/events">Events</RouterLink>
+    </nav>
   </header>
 
+  <!-- The routed views -->
   <RouterView />
 </template>
 
 <style scoped>
 header {
   line-height: 1.5;
-  max-height: 100vh;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
+  max-height: 100vh; /* Sets the maximum height of the header to 100% of the viewport height */
+  padding: 2rem; /* Adds padding to the top and bottom of the header */
 }
 
 nav {
-  width: 100%;
+  display: flex;
+  position: fixed; /* Keeps it at the top even when scrolling */
+  align-items: center; /* Align items vertically */
+  top: 0;
+  width: 80%;
   font-size: 12px;
   text-align: center;
-  margin-top: 2rem;
+  margin-top: 2rem; /* Pushes it down from the top with rem as the unit meaning it's relative to the font size of the root element */
+  z-index: 1000; /* Ensures it stays above other elements */
 }
 
 nav a.router-link-exact-active {
