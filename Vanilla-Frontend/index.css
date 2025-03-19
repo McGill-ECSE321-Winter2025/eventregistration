@@ -1,0 +1,56 @@
+/* This file contains the CSS for the Vanilla-Frontend */
+/* It is used to style the HTML elements of the application */
+html {
+    /* Set the background color of the page */
+    background-color: antiquewhite;
+    /* Set the font family of the page, the comma separated list is used to provide fallback fonts */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+img {
+    /* Set the width of the image */
+    width: 400px;
+    /* Set the border radius of the image */
+    border-radius: 20px;
+    /* Set the object fit of the image */
+    object-fit: cover;
+    /* Set the float of the image */
+    float: left;
+    /* Set the padding and margin of the image */
+    padding: 1em;
+    margin: 1em;
+}
+
+h2 {
+    /* Set the decoration of the heading */
+    text-decoration: underline;
+}
+
+p {
+    /* Set the color of the paragraph */
+    color: saddlebrown;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+td, th {
+    /* Set the padding of the table cells with em units meaning relative to the font size of the element */
+    padding: 0.5em;
+    /* Set the border of the table cells */
+    border: 1px solid black;
+}
+
+/* Set the styling of the danger button class (by class) */
+
+.danger-btn {
+    color: red;
+    border: 1px solid red;
+}
+
+/* Set the styling of the create button (by id) */
+#create-btn {
+    color: green;
+    border: 1px solid green;
+}
