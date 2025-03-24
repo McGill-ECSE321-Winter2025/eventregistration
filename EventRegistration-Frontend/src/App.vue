@@ -1,15 +1,24 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
+import UserProfile from "@/components/userProfile.vue";
 import HelloWorld from './components/HelloWorld.vue'
+
+const username = "Byron";
+const userEmail = "Byron.chen@mail.mcgill.ca";
+
 </script>
 
 <template>
   <header>
     <!-- The navigation bar -->
     <nav>
-      <RouterLink to="/">Home</RouterLink>
-      <RouterLink to="/about">About</RouterLink>
-      <RouterLink to="/events">Events</RouterLink>
+      <div>
+        <RouterLink to="/">Home</RouterLink>
+        <RouterLink to="/about">About</RouterLink>
+        <RouterLink to="/events">Events</RouterLink>
+      </div>
+
+      <UserProfile :username="username" :userEmail="userEmail" />
     </nav>
   </header>
 
@@ -34,6 +43,7 @@ nav {
   text-align: center;
   margin-top: 2rem; /* Pushes it down from the top with rem as the unit meaning it's relative to the font size of the root element */
   z-index: 1000; /* Ensures it stays above other elements */
+  justify-content: space-between;
 }
 
 nav a.router-link-exact-active {
