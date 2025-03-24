@@ -1,5 +1,11 @@
 <script setup>
-import {computed, ref} from 'vue';
+import {computed, onMounted, ref} from 'vue';
+import axios  from "axios";
+
+const axiosClient = axios.create({
+      baseURL: "http://localhost:8080"
+    }
+);
 
 let newEventName = ref(null);
 let newEventDate = ref(null);
@@ -9,16 +15,35 @@ let newEventRegLimit = ref(null);
 let newEventLocation = ref(null);
 
 let events = ref([
-  { name: "Party", date: "2024-03-23", registrationLimit: 1 },
-  { name: "Solar Eclipse", date: "2024-04-08", registrationLimit: 2 },
+  // { name: "Party", date: "2024-03-23", registrationLimit: 1 },
+  // { name: "Solar Eclipse", date: "2024-04-08", registrationLimit: 2 },
 ]);
 
+onMounted(async () => {
+  try {
+    const response = await axiosClient.get("/events")
+    events.value = response.data.events;
+
+  } catch (error) {
+    console.error(error);
+  }
+});
 
 async function createEvent() {
   const newEvent = {
+    type: "IN_PERSON",
     name: this.newEventName,
     date: this.newEventDate,
+    startTime: this.newEventStartTime,
+    endTime: this.newEventEndTime,
     registrationLimit: this.newEventRegLimit,
+    address: this.newEventLocation,
+  }
+
+  try {
+    await axiosClient.post("/events", newEvent);
+  } catch (e) {
+    console.error("Failed to create event.");
   }
 
   events.value.push(newEvent);
