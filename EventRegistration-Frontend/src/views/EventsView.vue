@@ -1,41 +1,83 @@
 <script setup>
-// DOMContentLoaded event is used to make sure that the script is executed after the HTML is completely loaded
-// The event listener is added to the button with the id create-btn
-window.addEventListener("DOMContentLoaded", () => {
-  const createBtn = document.getElementById("create-btn");
+import {computed, ref} from 'vue';
 
-  createBtn.addEventListener("click", () => {
-    // Get the values of the input fields
-    const name = document.getElementById("name-input").value;
-    const date = document.getElementById("date-input").value;
-    const regLimit = document.getElementById("limit-input").value;
+let newEventName = ref(null);
+let newEventDate = ref(null);
+let newEventStartTime = ref(null);
+let newEventEndTime = ref(null);
+let newEventRegLimit = ref(null);
+let newEventLocation = ref(null);
 
-    // Create a new table row element
-    const tr = document.createElement("tr");
-    tr.innerHTML = `<td>${name}</td><td>${date}</td><td>${regLimit}</td>`;
+let events = ref([
+  { name: "Party", date: "2024-03-23", registrationLimit: 1 },
+  { name: "Solar Eclipse", date: "2024-04-08", registrationLimit: 2 },
+]);
 
-    // Get the table body element and append the new table row element
-    const tbody = document.getElementById("event-tbody");
-    tbody.appendChild(tr);
-  })
 
-  const clearBtn = document.getElementById("clear-btn");
+async function createEvent() {
+  const newEvent = {
+    name: this.newEventName,
+    date: this.newEventDate,
+    registrationLimit: this.newEventRegLimit,
+  }
 
-  clearBtn.addEventListener("click", () => {
-    const inputFields = document.getElementsByClassName("input-field");
-    for (let i = 0; i < inputFields.length; i++) {
-      inputFields[i].value = "";
-    }
-  })
+  events.value.push(newEvent);
+}
 
-  const deleteAllBtn = document.getElementById("delete-btn");
+function clearForm() {
+  newEventName.value = null;
+  newEventDate.value = null;
+  newEventStartTime.value = null;
+  newEventEndTime.value = null;
+  newEventRegLimit.value = null;
+  newEventLocation.value = null;
+}
 
-  deleteAllBtn.addEventListener("click", () => {
-    const tbody = document.getElementById("event-tbody");
-    // Delete all the rows except the header row
-    tbody.innerHTML = "<tr><th>Name</th><th>Date</th><th>Registration Limit</th></tr>";
-  })
+function deleteAllEvents() {
+  events.value = [];
+}
+
+const isCreatedBtnDisabled = computed(() => {
+  return !newEventName.value || !newEventDate.value || !newEventRegLimit.value;
 })
+
+// // DOMContentLoaded event is used to make sure that the script is executed after the HTML is completely loaded
+// // The event listener is added to the button with the id create-btn
+// window.addEventListener("DOMContentLoaded", () => {
+//   const createBtn = document.getElementById("create-btn");
+//
+//   createBtn.addEventListener("click", () => {
+//     // Get the values of the input fields
+//     const name = document.getElementById("name-input").value;
+//     const date = document.getElementById("date-input").value;
+//     const regLimit = document.getElementById("limit-input").value;
+//
+//     // Create a new table row element
+//     const tr = document.createElement("tr");
+//     tr.innerHTML = `<td>${name}</td><td>${date}</td><td>${regLimit}</td>`;
+//
+//     // Get the table body element and append the new table row element
+//     const tbody = document.getElementById("event-tbody");
+//     tbody.appendChild(tr);
+//   })
+//
+//   const clearBtn = document.getElementById("clear-btn");
+//
+//   clearBtn.addEventListener("click", () => {
+//     const inputFields = document.getElementsByClassName("input-field");
+//     for (let i = 0; i < inputFields.length; i++) {
+//       inputFields[i].value = "";
+//     }
+//   })
+//
+//   const deleteAllBtn = document.getElementById("delete-btn");
+//
+//   deleteAllBtn.addEventListener("click", () => {
+//     const tbody = document.getElementById("event-tbody");
+//     // Delete all the rows except the header row
+//     tbody.innerHTML = "<tr><th>Name</th><th>Date</th><th>Registration Limit</th></tr>";
+//   })
+// })
 </script>
 
 <template>
@@ -61,12 +103,12 @@ window.addEventListener("DOMContentLoaded", () => {
   <!-- A container is a block-level element that contains other elements and is used to group elements together to style them with CSS -->
   <div>
     <!-- Input fields -->
-    <input type="text" class="input-field" id="name-input" placeholder="Name"/>
-    <input type="date" class="input-field" id="date-input" placeholder="Date"/>
-    <input type="time" class="input-field" placeholder="Start Time"/>
-    <input type="time" class="input-field" placeholder="End Time"/>
-    <input type="text" class="input-field" id="limit-input" placeholder="Registration Limit"/>
-    <input type="text" class="input-field" placeholder="Location"/>
+    <input type="text" v-model="newEventName" class="input-field" id="name-input" placeholder="Name"/>
+    <input type="date" v-model="newEventDate" class="input-field" id="date-input" placeholder="Date"/>
+    <input type="time" v-model="newEventStartTime" class="input-field" placeholder="Start Time"/>
+    <input type="time" v-model="newEventEndTime" class="input-field" placeholder="End Time"/>
+    <input type="text" v-model="newEventRegLimit" class="input-field" id="limit-input" placeholder="Registration Limit"/>
+    <input type="text" v-model="newEventLocation" class="input-field" placeholder="Location"/>
 
     <!-- select -->
     <select>
@@ -74,16 +116,16 @@ window.addEventListener("DOMContentLoaded", () => {
       <option value="in-person">In-Person</option>
     </select>
 
-    <!-- checkbox -->
-    <checkbox>
-      <input type="checkbox" id="is-virtual" name="is-virtual" value="virtual"> <!-- A checkbox input field -->
-      <label for="is-virtual">Virtual</label><br> <!-- A label for the checkbox input field -->
-    </checkbox>
+<!--    &lt;!&ndash; checkbox &ndash;&gt;-->
+<!--    <checkbox>-->
+<!--      <input type="checkbox" id="is-virtual" name="is-virtual" value="virtual"> &lt;!&ndash; A checkbox input field &ndash;&gt;-->
+<!--      <label for="is-virtual">Virtual</label><br> &lt;!&ndash; A label for the checkbox input field &ndash;&gt;-->
+<!--    </checkbox>-->
 
     <!-- Buttons -->
-    <button id="create-btn">Create Event</button>
-    <button id="clear-btn" class="danger-btn">Clear</button>
-    <button id="delete-btn" class="danger-btn">Delete All Events</button>
+    <button @click="createEvent()" v-bind:disabled="isCreatedBtnDisabled" id="create-btn">Create Event</button>
+    <button @click="clearForm()" id="clear-btn" class="danger-btn">Clear</button>
+    <button @click="deleteAllEvents()" id="delete-btn" class="danger-btn">Delete All Events</button>
 
   </div>
 
@@ -100,13 +142,11 @@ window.addEventListener("DOMContentLoaded", () => {
       <th>Date</th>
       <th>Registration Limit</th>
     </tr>
-    <!-- A table row that contains the event data -->
-    <tr>
-      <td>Party</td>
-      <td>2024-03-23</td>
-      <td>1</td>
+    <tr v-for="e in events">
+      <td>{{ e.name }}</td>
+      <td>{{ e.date }}</td>
+      <td>{{ e.registrationLimit }}</td>
     </tr>
-
     </tbody>
   </table>
 
