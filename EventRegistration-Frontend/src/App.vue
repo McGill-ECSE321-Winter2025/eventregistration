@@ -1,15 +1,23 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
+import UserProfile from "@/components/UserProfile.vue";
+
+const username = "Byron";
+const userEmail = "Byron.chen@mail.mcgill.ca";
+
 </script>
 
 <template>
   <header>
     <!-- The navigation bar -->
     <nav>
-      <RouterLink to="/">Home</RouterLink>
-      <RouterLink to="/about">About</RouterLink>
-      <RouterLink to="/events">Events</RouterLink>
+      <div>
+        <RouterLink to="/">Home</RouterLink>
+        <RouterLink to="/about">About</RouterLink>
+        <RouterLink to="/events">Events</RouterLink>
+      </div>
+      <UserProfile :username="username" :userEmail="userEmail"></UserProfile>
     </nav>
   </header>
 
@@ -29,11 +37,12 @@ nav {
   position: fixed; /* Keeps it at the top even when scrolling */
   align-items: center; /* Align items vertically */
   top: 0;
-  width: 80%;
+  width: 78%;
   font-size: 12px;
   text-align: center;
   margin-top: 2rem; /* Pushes it down from the top with rem as the unit meaning it's relative to the font size of the root element */
   z-index: 1000; /* Ensures it stays above other elements */
+  justify-content: space-between;
 }
 
 nav a.router-link-exact-active {
