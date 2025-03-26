@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:8090")
 public class EventController {
     @Autowired
     private EventService eventService;
