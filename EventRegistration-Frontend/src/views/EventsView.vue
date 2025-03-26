@@ -19,7 +19,7 @@ let newEventLocation = ref(null);
 onMounted(async () => {
   try {
     const response = await axiosClient.get("/events")
-    events.value = response.data;
+    events.value = response.data.events;
 
   } catch (e) {
     console.error(e);
